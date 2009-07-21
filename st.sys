@@ -17,7 +17,7 @@
 ##### nfsMount("uid.gid@srvName", "/export/dir", "/local/dir") #####
     rpcUdpInit()
     nfsInit(0,0)
-    nfsMount("192.168.90.1","/srv/tftp/dchabot","/mnt")
+    nfsMount("@NFS_SERVER_IPADDR@","@NFS_SERVER_MOUNT_POINT@","/mnt")
 #   nfsMountsShow(0)
 #####################################################################
     chdir("/mnt")
@@ -27,4 +27,4 @@
     gdbstubHdl = ld("rtems-gdb-stub.obj")
     rtems_gdb_start(0,0)
 ####### set PATH for Till's gdb-stub to find object-files... #######
-    setenv("PATH","/mnt:/TFTP/192.168.90.1/dchabot:",1)	
+    setenv("PATH","/mnt:",1)	

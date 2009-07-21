@@ -132,7 +132,7 @@ S_O_FILES=$(S_FILES:%.S=${ARCH}/%.o)
 SRCS=$(C_FILES) $(CC_FILES) $(H_FILES) $(S_FILES)
 OBJS=$(C_O_FILES) $(CC_O_FILES) $(S_O_FILES)
 
-PGMS=${ARCH}/rtems.exe
+PGMS=${ARCH}/rtems.exe ${ARCH}/st.sys
 
 # List of RTEMS managers to be included in the application goes here.
 # Use:
@@ -441,7 +441,7 @@ endif
 $(RTEMS_SITE_INSTALLDIR):
 	test -d $@ || mkdir -p $@
 
-INSTFILES += ${PGMS} ${PGMS:%.exe=%.$(ELFEXT)} ${PGMS:%.exe=%.bin} st.sys
+INSTFILES += ${PGMS} ${PGMS:%.exe=%.$(ELFEXT)} ${PGMS:%.exe=%.bin} 
 ifeq "$(USE_BUILTIN_SYMTAB)xx" "NOxx"
 INSTFILES += ${PGMS:%.exe=%.sym}
 endif
@@ -548,9 +548,16 @@ thelibs:
 	@echo Library vpath:
 	@echo $(patsubst -L%,%,$(filter -L%,$(THELIBS)))
 
+
+
 #initialization script
-#$(ARCH)/st.sys: st.sys $(wildcard st.sys-ssrl) $(wildcard st.sys-$(RTEMS_BSP)) $(wildcard st.sys-$(RTEMS_BSP)-ssrl)
-#	cat $^ | sed -e 's/@RTEMS_CPU@/$(RTEMS_CPU)/g' -e 's/@RTEMS_BSP@/$(RTEMS_BSP)/g' > $@
+$(ARCH)/st.sys: st.sys
+ifeq ($(strip $(NFS_SERVER_IPADDR),$(NFS_SERVER_MOUNT_POINT)),) 
+	$(error You must define a NFS_SERVER_IPADDR and NFS_SERVER_MOUNT_POINT!!!)
+endif
+# NOTE: we use '%' as the sed delimiter instead of '/' to prevent clashes with paths
+	cat $^ | sed -e 's%@NFS_SERVER_IPADDR@%$(NFS_SERVER_IPADDR)%g' \
+				 -e 's%@NFS_SERVER_MOUNT_POINT@%$(NFS_SERVER_MOUNT_POINT)%g' > $@
 
 
 
