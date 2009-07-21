@@ -146,7 +146,7 @@ include $(RTEMS_CUSTOM)
 include $(RTEMS_ROOT)/make/leaf.cfg
 
 ifndef XSYMS
-XSYMS =$(RTEMS_CPU)-$(RTEMS_HOST)-xsyms
+XSYMS = #$(RTEMS_CPU)-$(RTEMS_HOST)-xsyms
 endif
 
 
@@ -374,9 +374,13 @@ all: bspcheck gc-check libnms ${ARCH} $(SRCS) $(PGMS)
 # We want to have the build date compiled in...
 $(ARCH)/init.o: builddate.c pathcheck.c ctrlx.c
 
+ifndef OBJDUMP
+OBJDUMP=$(RTEMS_CPU)-$(RTEMS_HOST)-objdump
+endif
+
 builddate.c: $(filter-out $(ARCH)/init.o $(ARCH)/allsyms.o,$(OBJS)) Makefile
 	echo 'static char *system_build_date="'`date +%Y%m%d%Z%T`'";' > $@
-	echo '#define DEFAULT_CPU_ARCH_FOR_CEXP "'`$(XSYMS) -a $<`'"' >>$@
+	echo '#define DEFAULT_CPU_ARCH_FOR_CEXP "'`$(OBJDUMP) -a  $< | awk '{if(NR==2) {print $$NF}}'`'"' >>$@
 pathcheck.c: nvram/pathcheck.c
 	$(LN) -s $^ $@
 
