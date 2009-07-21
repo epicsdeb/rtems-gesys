@@ -1,0 +1,29 @@
+/#address-cells 2
+# 604 CPU
+/openprom/init/register/pvr 0xfffe0000
+/openprom/options/oea-memory-size 0x20000000
+#not using stdio results in polling read from stdin!!
+#/openprom/options/use-stdio? false
+/phb@0x80000000/#address-cells 3
+/phb@0x80000000/#size-cells 2
+/phb@0x80000000/ranges \
+    nm0,0,0,80000000 0x80000000 0x10000000 \
+    ni0,0,0,0 0xc0000000 0x10000
+/phb/ide@1/assigned-addresses \
+        ni0,0,10,1f0 8 \
+        ni0,0,14,3f8 8 \
+        ni0,0,18,170 8 \
+        ni0,0,1c,378 8 \
+        ni0,0,20,200 8
+/phb@0x80000000/ide@1/reg \
+        1 0 \
+        i0,0,10,0 8 \
+        i0,0,18,0 8 \
+        i0,0,14,6 1 \
+        i0,0,1c,6 1 \
+        i0,0,20,0 8
+# NOTE: disk image files MUST exist
+/phb/ide@1/disk@0/file "tarfsImg"
+#/phb/ide@1/disk@1/file "tarfsImg1"
+/chosen/disk0 */phb/ide@1/disk@0
+#/chosen/disk1 */phb/ide@1/disk@1

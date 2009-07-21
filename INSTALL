@@ -1,0 +1,74 @@
+ Quick install instructions for RTEMS-4.7.1
+ ******************************************
+
+ If you want to built GeSys for the uC5282 (m68k)
+ BSP then you need to fix a bug in linkcmds.
+ The necessary patch is attached below. Just
+ chdir to the RTEMS source topdir and issue
+
+   patch -p0 -b < this_file
+
+ (It is always a good idea to try a --dry-run first)
+
+ Then you must re-build and re-install RTEMS (sorry).
+ Later versions (not sure about 4.8 but the CVS head
+ has it fixed) do not need to be patched.
+
+ a) create a <top> directory and unpack the GeSys-2.4
+    sources there.
+
+ b) download and unpack rtemsNfs-1.7 in the <top> directory.
+
+ c) download and unpack cexp-1.6.beta in the <top> directory.
+
+ e) (Optionally) download and unpack libbspExt-1.4 in the
+    <top> directory. This library only has benefits on
+	powerpc and i386 platforms. (It is needed for EPICS
+	on powerpc VME boards, though.)
+
+ f) copy Makefile.top to <topdir>/Makefile
+
+ At this point the <top> directory contains the following
+ entries:
+
+ 	<top>/Makefile
+	<top>/cexp-1.6.beta
+	<top>/rtemsNfs-1.7
+	<top>/GeSys-2.4
+	[ optionally: <top>/libbspExt-1.4 ]
+
+  g) set the RTEMS_MAKEFILE_PATH variable to point to
+     your BSP's Makefile.inc
+
+  h) make sure the cross-toolchain is found in your PATH
+
+  i) chdir to <top> and issue make
+
+  NOTE: the build process installs all headers, libraries
+  and executables into the standard RTEMS tree next to
+  the other RTEMS headers, libraries etc.
+
+Index: c/src/lib/libbsp/m68k/uC5282/startup/linkcmds
+===================================================================
+RCS file: /usr1/CVS/rtems/c/src/lib/libbsp/m68k/uC5282/startup/linkcmds,v
+retrieving revision 1.8.2.1
+diff -c -r1.8.2.1 linkcmds
+*** c/src/lib/libbsp/m68k/uC5282/startup/linkcmds	12 Mar 2007 11:22:17 -0000	1.8.2.1
+--- c/src/lib/libbsp/m68k/uC5282/startup/linkcmds	29 Apr 2008 17:24:50 -0000
+***************
+*** 146,152 ****
+          .data : {
+              PROVIDE( _data_dest_start = . );
+              PROVIDE( _copy_start = .);
+!             *(.data)
+              *(.gnu.linkonce.d*)
+              *(.gcc_except_table)
+              *(.jcr)
+--- 146,152 ----
+          .data : {
+              PROVIDE( _data_dest_start = . );
+              PROVIDE( _copy_start = .);
+!             *(.data*)
+              *(.gnu.linkonce.d*)
+              *(.gcc_except_table)
+              *(.jcr)

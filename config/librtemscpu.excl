@@ -1,0 +1,32 @@
+/* libblock, libmsdos */
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[bdbuf.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[blkdev.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[check.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[ide_part_table.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[ramdisk.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[fat_fat_operations.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[fat_file.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[diskdevs.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[fat.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[fsmount.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_conv.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_create.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_dir.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_eval.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_file.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_format.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_free.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_fsunmount.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_handlers_dir.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_handlers_file.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_init.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_initsupp.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_misc.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_mknod.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[msdos_node_type.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[show_bdbuf.o]:
+
+/* libmisc */
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[cmds.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[mw_fb.o]:
+/opt/rtems-branch/target/powerpc-rtems/beatnik/lib/librtemscpu.a[mw_uid.o]:

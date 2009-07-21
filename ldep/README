@@ -1,0 +1,168 @@
+The object dependency analyzer 'ldep' README
+
+by Till Straumann <strauman@slac.stanford.edu>
+
+The 'ldep' tool was created to simplify creation
+of proper linker scripts for the RTEMS/GeSys
+(generic system) application.
+
+When building a 'generic system', linkage of
+many library objects not directly needed by
+the application itself (i.e. GeSys) must be
+artificially enforced.
+
+This is achieved by declaring a symbol exported
+by a desired object as 'EXTERN' e.g. in a linker
+script.
+
+Unfortunately, it is not possible to simply
+add an entire library (e.g. by using the
+--whole-archive 'ld' option or by declaring
+EXTERN all globally visible symbols of an entire
+library) to an application because the library
+may contain objects which reference symbols that
+are nowhere defined. This is possible because
+such objects are normally never used and therefore
+never linked. (This particularly applies to
+low-level libraries such as libc.a or libgcc.a)
+
+Due to object interdependencies, it can be
+very difficult and time consuming to localize
+a set of objects depending on undefined symbols
+and eliminating them from the link.
+
+Also, it can be desirable to exclude library
+parts from the system albeit they do not
+reference undefined symbols. However, merely
+excluding an object from the linker script
+(i.e. removing all EXTERN declarations for
+the object in question) doesn't work, because
+other objects depending on the target object,
+may still be present and hence trigger linkage
+of the undesired one. To effectively remove
+a given object from a link, the object itself
+and ALL objects importing, directly or indirectly,
+symbols from the target must be removed.
+
+The 'ldep' tool was created to address these
+issues.
+
+'ldep' builds a database of all object
+files and the symbols they export and import,
+respectively. This database is built from
+symbol listings generated with the 'nm' utility.
+
+'ldep' supports the concept of a 'link set'
+which is defined as a set of interdepending
+object files. Normally, 'ldep' deals with two
+distinct link sets: the 'Application' link
+set and the 'Optional' link set. The former
+comprises all objects needed by the application
+itself, i.e. it is identical with the objects
+linked into the application if no special action
+is taken to enforce linking any additional piecesc 
+of any library.
+The 'Optional' link set consists of any number
+of objects which are to be added, i.e. which are
+to be forcibly linked to the executable.
+
+'ldep' constructs the two link sets according
+to the following algorithm:
+
+1) a global database of all symbols and object
+   files is constructed.
+
+2) the 'Application' link set is constructed,
+   recursively resolving undefined symbol references
+   by adding objects from the database to the target
+   link set.
+
+2) the 'Optional' link set is constructed by
+   adding files which are not already part
+   of any link set to the 'Optional' link set.
+   During this process, undefined symbol references
+   are resolved and may trigger inclusion of
+   additional objects to the 'Optional' link
+   set (provided that they are not already
+   part of the 'Application' link set).
+
+3) 'ldep' looks for undefined symbols using
+   some heuristics. Undefined symbols referenced
+   by the 'Application' are considered 'legal'
+   because they are very likely to be resolved
+   by special 'startup' files or linker scripts,
+   which are not accessible to 'ldep', but which
+   will be used during the final link of the
+   application.
+
+   Undefined symbols which are exclusively referenced
+   by 'Optional' objects are considered 'illegal'.
+
+   'ldep' recursively removes all objects referencing
+   (directly or indirectly) 'illegal' symbols.
+   
+4) 'ldep' may, optionally, be given a list of
+   files to be removed from the 'Optional' link set.
+   Such files are then removed, removing any other
+   files referencing (directly or indirectly) the
+   object in question.
+
+   E.g. if 'rtemspppd.o' needs 'options.o' and
+   you instruct 'ldep' to remove 'options.o', then
+   'options.o' and all references to it, i.e
+   'rtemspppc.o' etc. will be removed from the
+   'Optional' link set. This asserts that the 
+   target file is not silently linked in due to
+   dependencies.
+
+5) 'ldep' generates, upon request, a linker script
+   file containing proper EXTERN declarations.
+
+5a) 'ldep' can also emit C-code ('-C' option) suitable
+   for using as a Cexp symbol table. Since all desired
+   symbols are referenced by this C-source file, building
+   it into the application ensures that all desired link
+   sets are included in the final link. No special
+   linker script is needed in this case.
+
+How to generate input files for 'ldep'
+
+The proper symbol tables must be generated with
+the GNU 'nm' utility. Make sure you use the version
+for your target, e.g. 'powerpc-rtems-nm'. It is
+MANDATORY to use the '-g' and '-fposix' options
+otherwise, the symbol files are NOT in the correct
+format for 'ldep'. You should create one symbol
+file per library, e.g.:
+
+	powerpc-rtems-nm -g -fposix <path>/libc.a > libc.nm
+	powerpc-rtems-nm -g -fposix <path>/librtemscpu.a > librtemscpu.nm
+    etc...
+
+NOTE: the FIRST symbol/name file given to 'ldep' on the
+      command line must contain the 'Application' objects
+      (not the libraries - the dependencies are automatically
+      resolved!). You may generate it e.g. by
+
+      powerpc-rtems-nm -g -fposix init.o config.o > app.nm
+
+      Alternatively, the application's 'main' symbol may
+      be specified on the command line using the '-A' option.
+      The first symbol/name file is not treated special
+      in this case.
+
+Examples:
+
+Short help:
+
+  ldep -h
+
+Generate linker script, application symbols in 'app.nm'
+
+  ldep -e script app.nm librtemscpu.nm librtemsbsp.nm libc.nm  ...
+
+Generate linker script, application 'main' symbol is 'Init',
+remove objects listed in 'exclude_objects':
+
+  ldep -e script -A Init -x exclude_objects app.nm libxxx.nm ...
+

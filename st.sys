@@ -1,0 +1,38 @@
+# useful abbreviations
+ld    = cexpModuleLoad
+unld  = cexpModuleUnload
+lsmod = cexpModuleInfo
+# start the portmapper with a priority argument
+rtems_rpc_start_portmapper(gesysNetworkTaskPriority)
+# set telnet password to 'rtems'
+setenv("TELNETD_PASSWD","tduDcyLX12owo")
+ld("telnetd.obj")
+# RTEMS monitor (type rtemsMonitor() to enter its own shell)
+ld("monitor.obj")
+# misc utilities, e.g., md(), mm() memory inspection/modification
+ld("miscUtils.obj")
+# NTP clock this is NOT the system clock. Read using ntp_gettime()
+ld("ntpclock.obj") && rtemsNtpInitialize(0,0)
+# set timezone (2007++ rule)
+setenv("TZ","PST8PDT,M3.2.0,M11.1.0",1)
+tzset()
+# set default PATH
+addpathcwd(":",0)
+
+# Ethernet Interface Media Ioctl Commands (for convenience)
+SIOCSIFMEDIA=0xc0206937
+SIOCGIFMEDIA=0xc0286938
+# Media word:
+#  (phy_inst<<28) | (options) | (type<<4) | (subtype)
+# type: 2: ETHER, 4: TOKEN, 6: FDDI
+# ether_subtype: 3: 10BaseT
+#                4: 10Base2
+#                5: 10Base5
+#                6: 100BaseTX
+#                7: 100BaseFX
+#                8: 100BaseT4
+#               10: 100BaseT2
+# options:   1<<20: Force Full Duplex
+#            1<<21: Force Half Duplex
+#            1<<27: HW Loopback
+

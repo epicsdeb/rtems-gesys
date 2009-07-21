@@ -1,0 +1,15 @@
+
+# BSP enhancements (drivers for various stuff)
+ld("coldfUtils.obj")
+
+# Load watchdog; may set watchdog timer type
+# by changing the global 'uC5282WatchdogType' var.
+# Note that the internal watchdog (Type 0x00)
+# does not work because disabled by firmware.
+# Using DMA timers (type 0x10) requires a hardware
+# wire between respective timer output and RESET.
+ld("watchdog.obj")
+# Use DMA timer 0 (DMA timer = 0x10, add timer #)
+#uC5282WatchdogType = 0x10
+# Start watchdog with priority 20
+#wdStart(20)

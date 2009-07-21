@@ -1,0 +1,13 @@
+AC_INIT(ldep, 1.0, <strauman@slac.stanford.edu>)
+
+dnl AC_CANONICAL_BUILD
+dnl AC_CANONICAL_HOST
+dnl AC_CANONICAL_TARGET
+
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
+
+AC_CONFIG_FILES(Makefile)
+
+AC_OUTPUT

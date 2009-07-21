@@ -1,0 +1,35 @@
+/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libopcodes.a[dis-buf.o]:
+buffer_read_memory T 000000f0 00000078
+generic_print_address T 0000008c 00000064
+generic_symbol_at_address T 0000007c 00000010
+memcpy U         
+perror_memory T 00000000 0000007c
+sprintf U         
+/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libopcodes.a[disassemble.o]:
+bfd_get_arch U         
+bfd_get_mach U         
+disassembler T 00000020 00000098
+disassembler_usage T 00000000 00000020
+print_insn_big_powerpc U         
+print_insn_little_powerpc U         
+print_insn_rs6000 U         
+print_ppc_disassembler_options U         
+/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libopcodes.a[ppc-dis.o]:
+bfd_getb32 U         
+bfd_getl32 U         
+fwrite U         
+powerpc_num_opcodes U         
+powerpc_opcodes U         
+powerpc_operands U         
+print_insn_big_powerpc T 000006a4 00000044
+print_insn_little_powerpc T 00000660 00000044
+print_insn_rs6000 T 00000564 00000014
+print_ppc_disassembler_options T 00000000 000000a0
+strcmp U         
+strstr U         
+/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libopcodes.a[ppc-opc.o]:
+powerpc_macros R 0000c338 00000260
+powerpc_num_macros G 00000004 00000004
+powerpc_num_opcodes G 00000000 00000004
+powerpc_opcodes R 000005f0 0000bd48
+powerpc_operands R 00000000 000005f0

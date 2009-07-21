@@ -1,0 +1,36 @@
+RTEMS GeSys ("Generic System") 
+==============================
+
+RTEMS GeSys is a general purpose application.
+It is configured to support most of RTEMS' features
+(all managers, networking, APIs) with generous limits.
+
+The GeSys Makefile contains special "magic" to enforce
+GeSys to be linked with most parts of the core system
+libraries (libc, libstdc++, libgcc, librtemsbsp,
+librtemscpu etc.) including full C++ support.
+Additional libraries can be included by listing them
+in the Makefile (add to OPT_LIBRARIES). Individual
+objects may be excluded from the optional libraries
+by listing them in an 'exclude_list' file in the
+'config' subdirectory. Consult README.config for
+more information.
+
+The initialization task initializes and runs Cexp
+as a powerful shell. The idea is that GeSys be used
+to load and start 'real' applications at run-time.
+
+RTEMS GeSys has been tested on the following BSPs:
+
+    i386-pc386,
+
+	powerpc-mvme23xx, powerpc-mvme2100 powerpc-svgm,
+	powerpc-mvme5500, powerpc-beatnik, powerpc-mvme3100,
+	powerpc-psim
+
+	m68k-mvme167, m68k-uC5282
+
+
+Till Straumann, 2003/7/22
+
+http://www.slac.stanford.edu/~strauman/rtems/index.html

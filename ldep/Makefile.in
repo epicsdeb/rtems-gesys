@@ -1,0 +1,22 @@
+PROG=ldep
+
+CFLAGS=@CFLAGS@
+CPPFLAGS=@CPPFLAGS@
+LDFLAGS=@LDFLAGS@
+
+CC=@CC@
+INSTALL=@INSTALL@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+
+all: $(PROG)
+
+$(PROG): @srcdir@/ldep.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+install: all
+	$(INSTALL) $(PROG) $(exec_prefix)/bin/`echo $(PROG)|sed '@program_transform_name@'`
+
+clean:
+	$(RM) $(PROG) *.o *.a

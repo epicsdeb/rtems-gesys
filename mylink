@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# This trivial script filters an 'ld' command line to extract
+# -Lxxx and -lyyy arguments. It assembles a directory path list
+# and a list of libraries found.
+#
+#echo "$*" > feil
+while [ ! -z "$1" ]; do
+	strarg=`echo "$1" | sed -n -e '/^-../s/^[-].//p'`
+	if  echo "$1" | grep '^-L' > /dev/null ; then
+		if [ -z "$strarg" ] ; then
+			strarg=$2
+			shift
+		fi
+		if [ -z "$LIBPATH" ] ; then
+			LIBPATH="-L"$strarg
+		else
+			LIBPATH="$LIBPATH:$strarg"
+		fi
+	fi
+	if  echo "$1" | grep '^-l' > /dev/null ; then
+		if [ -z "$strarg" ] ; then
+			strarg=$2
+			shift
+		fi
+		if [ -z "$LIBRS" ] ; then
+			LIBRS="-l"$strarg
+		else
+			LIBRS="$LIBRS -l"$strarg
+		fi
+	fi
+	shift
+done
+#echo $LIBPATH > feil
+#echo $LIBRS >> feil
+echo $LIBPATH $LIBRS

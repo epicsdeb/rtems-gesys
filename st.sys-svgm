@@ -1,0 +1,3 @@
+# SVGM watchdog -- initialize BSP specific
+# things prior to chdir into common dir
+#ld("watchdog.obj") # && wdStart()

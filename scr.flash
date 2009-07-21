@@ -1,0 +1,5 @@
+EXTERN(rtems_bsdnet_initialize_network)
+EXTERN(rtems_bsdnet_initialize_tftp_filesystem)
+EXTERN(rtems_bsdnet_synchronize_ntp)
+EXTERN(vmeIrqInit)
+EXTERN(cexpDisassemble)

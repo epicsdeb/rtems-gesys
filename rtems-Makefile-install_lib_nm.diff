@@ -1,0 +1,99 @@
+Index: cpukit/aclocal/canonicalize-tools.m4
+===================================================================
+RCS file: /afs/slac/g/spear/cvsrep/rtems/src-20030128/cpukit/aclocal/canonicalize-tools.m4,v
+retrieving revision 1.1.1.1
+diff -c -r1.1.1.1 canonicalize-tools.m4
+*** cpukit/aclocal/canonicalize-tools.m4	29 Jan 2003 22:56:56 -0000	1.1.1.1
+--- cpukit/aclocal/canonicalize-tools.m4	23 Jul 2003 23:14:05 -0000
+***************
+*** 9,14 ****
+--- 9,15 ----
+  
+  dnl FIXME: What shall be done if these tools are not available?
+    RTEMS_CHECK_TOOL(AR,ar,no)
++   RTEMS_CHECK_TOOL(NM,nm,no)
+  
+  dnl special treatment of ranlib
+    RTEMS_CHECK_TOOL(RANLIB,ranlib,:)
+diff -c -r1.1.1.3 -r1.3
+Index: cpukit/wrapup//Makefile.am
+===================================================================
+RCS file: /afs/slac/g/spear/cvsrep/rtems/src-20030128/cpukit/wrapup/Makefile.am,v
+retrieving revision 1.1.1.4
+diff -c -r1.1.1.4 Makefile.am
+*** cpukit/wrapup//Makefile.am	21 Apr 2003 20:20:11 -0000	1.1.1.4
+--- cpukit/wrapup//Makefile.am	23 Jul 2003 23:23:34 -0000
+***************
+*** 76,85 ****
+  
+  TMPINSTALL_FILES += $(project_libdir)/librtemscpu$(LIB_VARIANT).a
+  
+! all-am: $(ARCH) $(LIB) $(TMPINSTALL_FILES)
+  
+  install-data-hook: $(LIB)
+  	@$(mkinstalldirs) $(DESTDIR)$(libdir)
+  	$(INSTALL_DATA) $(LIB) $(DESTDIR)$(libdir)
+  
+  include $(top_srcdir)/automake/local.am
+--- 76,92 ----
+  
+  TMPINSTALL_FILES += $(project_libdir)/librtemscpu$(LIB_VARIANT).a
+  
+! all-am: $(ARCH) $(LIB) $(LIBS) $(TMPINSTALL_FILES)
+  
++ # TillS: install nm/symbol files for the individual libs
+  install-data-hook: $(LIB)
+  	@$(mkinstalldirs) $(DESTDIR)$(libdir)
+  	$(INSTALL_DATA) $(LIB) $(DESTDIR)$(libdir)
++ 	for instlib in $(LIBS) ; do    \
++ 	  $(NM) -g -fposix $$instlib | \
++ 	  sed -e '/^.*lib[^.]*[.]a[[].*]:$$/s%^.*lib.*[.]a[[]%$(notdir $(LIB))[%' \
++       > $(DESTDIR)$(libdir)/`basename $$instlib .a`.nm \
++     ; done
++ 
+  
+  include $(top_srcdir)/automake/local.am
+Index: c/src/wrapup//Makefile.am
+===================================================================
+RCS file: /afs/slac/g/spear/cvsrep/rtems/src-20030128/c/src/wrapup/Makefile.am,v
+retrieving revision 1.1.1.5
+diff -c -r1.1.1.5 Makefile.am
+*** c/src/wrapup//Makefile.am	29 Apr 2003 08:03:48 -0000	1.1.1.5
+--- c/src/wrapup//Makefile.am	23 Jul 2003 23:02:40 -0000
+***************
+*** 15,22 ****
+  SRCS += ../lib/libbsp/@RTEMS_CPU@/@RTEMS_BSP_FAMILY@/wrapup/$(ARCH)/libbsp.a
+  endif
+  
+  if HAS_NETWORKING
+! SRCS += ../libnetworking/wrapup/$(ARCH)/libnetapps.a
+  endif
+  
+  if HAS_RDBG
+--- 15,23 ----
+  SRCS += ../lib/libbsp/@RTEMS_CPU@/@RTEMS_BSP_FAMILY@/wrapup/$(ARCH)/libbsp.a
+  endif
+  
++ ## TillS: omit netapps from generic lib
+  if HAS_NETWORKING
+! EXCLUDED = ../libnetworking/wrapup/$(ARCH)/libnetapps.a
+  endif
+  
+  if HAS_RDBG
+***************
+*** 69,76 ****
+--- 70,83 ----
+  	rm -f $(ARCH)/*
+  	$(RANLIB) $@
+  
++ # TillS: install name/symbol files for the individual libraries
+  install-data-local:
+  	@$(mkinstalldirs) $(DESTDIR)$(bsplibdir)
+  	$(INSTALL_DATA) $(LIB) $(DESTDIR)$(bsplibdir)
++ 	for instlib in $(SRCS) $(EXCLUDED); do    \
++ 	  $(NM) -g -fposix $$instlib | \
++ 	  sed -e '/^.*lib[^.]*[.]a[[].*]:$$/s%^.*lib.*[.]a[[]%$(notdir $(LIB))[%' \
++       > $(DESTDIR)$(bsplibdir)/`basename $$instlib .a`.nm \
++     ; done
+  
+  include $(top_srcdir)/../../automake/local.am

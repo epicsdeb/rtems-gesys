@@ -1,0 +1,40 @@
+all: install
+
+CEXP=cexp-1.6.beta
+NFS=rtemsNfs-1.7
+GESYS=GeSys-2.4
+BSPEXT=libbspExt-1.4
+
+ifndef RTEMS_MAKEFILE_PATH
+%:
+	$(error you must set RTEMS_MAKEFILE_PATH to point the your BSP's 'Makefile.inc')
+else
+install: links
+	@if test ! -f $(RTEMS_MAKEFILE_PATH)/Makefile.inc ; then echo "$(RTEMS_MAKEFILE_PATH)/Makefile.inc not found"; exit 1; fi
+	$(MAKE) -C $(BSPEXT) install
+	$(MAKE) -C $(CEXP)  rtemsbsp-install
+	$(MAKE) -C $(NFS)   install
+	$(MAKE) -C $(GESYS) install
+clean: links
+	@if test ! -f $(RTEMS_MAKEFILE_PATH)/Makefile.inc ; then echo "$(RTEMS_MAKEFILE_PATH)/Makefile.inc not found"; exit 1; fi
+	$(MAKE) -C $(BSPEXT) clean
+	$(MAKE) -C $(CEXP)   clean
+	$(MAKE) -C $(NFS)    clean
+	$(MAKE) -C $(GESYS)  clean
+endif		
+
+
+# cexp must be in a directory named 'cexp'
+links:
+	@if test ! -d cexp ; then             \
+		if test -h cexp ; then            \
+			$(RM) cexp ;                  \
+		fi ;                              \
+		if test -d $(CEXP) ; then         \
+			ln -s $(CEXP) cexp ;          \
+		else                              \
+			echo "CEXP sources are not installed in $(CEXP); please update Makefile"; \
+			exit 1;                       \
+		fi ;                              \
+	fi
+
