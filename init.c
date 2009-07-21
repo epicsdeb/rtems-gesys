@@ -10,16 +10,16 @@
 /*
  * Copyright 2002,2003, Stanford University and
  * 		Till Straumann <strauman@@slac.stanford.edu>
- * 
+ *
  * Stanford Notice
  * ***************
- * 
+ *
  * Acknowledgement of sponsorship
  * * * * * * * * * * * * * * * * *
  * This software was produced by the Stanford Linear Accelerator Center,
  * Stanford University, under Contract DE-AC03-76SFO0515 with the Department
  * of Energy.
- * 
+ *
  * Government disclaimer of liability
  * - - - - - - - - - - - - - - - - -
  * Neither the United States nor the United States Department of Energy,
@@ -28,17 +28,17 @@
  * completeness, or usefulness of any data, apparatus, product, or process
  * disclosed, or represents that its use would not infringe privately
  * owned rights.
- * 
+ *
  * Stanford disclaimer of liability
  * - - - - - - - - - - - - - - - - -
  * Stanford University makes no representations or warranties, express or
  * implied, nor assumes any liability for the use of this software.
- * 
+ *
  * This product is subject to the EPICS open license
- * - - - - - - - - - - - - - - - - - - - - - - - - - 
+ * - - - - - - - - - - - - - - - - - - - - - - - - -
  * Consult the LICENSE file or http://www.aps.anl.gov/epics/license/open.php
  * for more information.
- * 
+ *
  * Maintenance of notice
  * - - - - - - - - - - -
  * In the interest of clarity regarding the origin and status of this
@@ -85,7 +85,7 @@
  *
  *   - try to 'getenv("INIT")', thus retrieve the name
  *     of a 'user script' from the command line.
- *    
+ *
  *     (e.g. dhcpd.conf provides:
  *          option cmdline code 129 = text;
  *          ...
@@ -294,7 +294,7 @@ char *buf;
   }
 #endif
 
-  rtems_bsdnet_initialize_network(); 
+  rtems_bsdnet_initialize_network();
 
   /* remote logging only works after a call to openlog()... */
   openlog(0, LOG_PID | LOG_CONS, 0); /* use RTEMS defaults */
@@ -316,6 +316,12 @@ char *buf;
 		printf("FAILED\n");
   	else
 		printf("OK\n");
+		rtems_time_of_day time;
+		rtems_clock_get(RTEMS_CLOCK_GET_TOD, &time);
+		printf("yr:%u m:%u d:%u hr:%u min:%u sec:%u\n",\
+				time.year,time.month,time.day,\
+				time.hour,time.minute,time.second);
+		fflush(stdout);
   }
 
   /* stuff command line 'name=value' pairs into the environment */
@@ -363,7 +369,7 @@ char	*argv[7]={
   pcib_init();
 #endif
 #endif
-	
+
 #ifdef STACK_CHECKER_ON
   {
 	extern void Stack_check_Initialize();
@@ -389,7 +395,7 @@ char	*argv[7]={
 	EARLY_CMDLINE_GET(&cmdlinetmp);
 
 #ifdef HAVE_LIBNETBOOT
-  /* Let libnetboot process the command line string; all 
+  /* Let libnetboot process the command line string; all
    * special name=value pairs recognized by libnetboot will
    * be removed...
    */
@@ -481,7 +487,7 @@ char	*argv[7]={
   {
 	extern void *gesys_tarfs_image_start;
 	extern unsigned long gesys_tarfs_image_size;
-	printf("Loading TARFS... %s\n", 
+	printf("Loading TARFS... %s\n",
 		rtems_tarfs_load("/tmp", gesys_tarfs_image_start, gesys_tarfs_image_size) ? "FAILED" : "OK");
 	pathspec=strdup(BUILTIN_SYMTAB ? "/tmp/"SYSSCRIPT : "/tmp/rtems.sym");
   }
@@ -517,7 +523,7 @@ char	*argv[7]={
   if ( pathspec )
   	goto firstTimeEntry;
 
-  /* no pathspec but a builtin symtab -> 
+  /* no pathspec but a builtin symtab ->
    * skip reading symtab / system script
    */
   if ( BUILTIN_SYMTAB )
@@ -544,13 +550,13 @@ char	*argv[7]={
 	do {
 		printf("Symbol file can be loaded by:\n");
 #ifdef NFS_SUPPORT
-		printf("   NFS: [<uid>.<gid>@][<host>]:<export_path>:<symfile_path>\n"); 
+		printf("   NFS: [<uid>.<gid>@][<host>]:<export_path>:<symfile_path>\n");
 #endif
 #ifdef TFTP_SUPPORT
-		printf("  TFTP: [/TFTP/<host_ip>]<symfile_path>\n"); 
+		printf("  TFTP: [/TFTP/<host_ip>]<symfile_path>\n");
 #endif
 #ifdef RSH_SUPPORT
-		printf("   RSH: [<host>:]~<user>/<symfile_path>\n"); 
+		printf("   RSH: [<host>:]~<user>/<symfile_path>\n");
 #endif
 #ifdef USE_TECLA
 		bufp = gl_get_line(gl, "Enter Symbol File Name: ",
@@ -581,7 +587,7 @@ firstTimeEntry:
 
 	switch ( pathType(pathspec) ) {
 		case LOCAL_PATH:
-			fd = open(pathspec,O_RDONLY);			
+			fd = open(pathspec,O_RDONLY);
 			if ( fd >= 0 )
 				symf = strdup(pathspec);
 		break;
@@ -619,11 +625,11 @@ firstTimeEntry:
 
 
 	if ( (fd < 0) && !BUILTIN_SYMTAB ) {
-		fprintf(stderr,"Unable to open symbol file (%s)\n", 
+		fprintf(stderr,"Unable to open symbol file (%s)\n",
 			-11 == fd ? "not a valid pathspec" : strerror(errno));
 continue;
 	}
-	
+
 
 	if ( fd >= 0 )
 		close(fd);
@@ -668,7 +674,6 @@ continue;
 #endif
 
 bare_entry:
-
 	printf("Trying symfile '%s', system script '%s'\n",
 		BUILTIN_SYMTAB ? "BUILTIN" : symf,
 		sysscr ? sysscr :"(NONE)");
@@ -700,7 +705,7 @@ shell_entry:
 
 	freeps(&symf);
 	freeps(&sysscr);
-	
+
 
 	if (!result || CEXP_MAIN_NO_SCRIPT==result) {
 		int  rc;
@@ -723,7 +728,7 @@ shell_entry:
 
 			switch ( pathType( pathspec ) ) {
 #ifdef NFS_SUPPORT
-				case NFS_PATH:	 
+				case NFS_PATH:
 					if ( 0 == (rc = isNfsPath( &dfltSrv, pathspec, 0, &user_script, &homemnt ) ) ) {
 						/* valid NFS path; try to mount; */
 						if ( !bootmnt.uidhost || strcmp( homemnt.uidhost, bootmnt.uidhost ) ||
@@ -860,7 +865,7 @@ char *b = buf;
 
 	if ( 0 == got ) {
 		close(*pi);
-		*pi = -1;	
+		*pi = -1;
 		return 0;
 	}
 
@@ -888,7 +893,7 @@ int rval = -1;
 		rval = fd;
 		goto cleanup;
 	}
-	
+
 	assert( !*pFnam );
 
 	*pFnam = strdup("/tmp/rshcpyXXXXXX");
@@ -923,7 +928,7 @@ int rval = -1;
 		if ( got <= 0 ) {
 			if ( got )
 				perror("rshCopy() network select() error");
-			else 
+			else
 				fprintf(stderr,"rshCopy() network select() timeout\n");
 			goto cleanup;
 		}
@@ -959,7 +964,7 @@ cleanup:
 	if ( rval < 0 )
 		freeps(pFnam);
 
-	return rval;	
+	return rval;
 }
 #endif
 

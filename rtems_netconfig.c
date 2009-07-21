@@ -47,8 +47,10 @@
 /* make publicily available for startup scripts... */
 const int gesysNetworkTaskPriority = NETWORK_TASK_PRIORITY;
 
+//#define FIXED_IP_ADDR "192.168.90.10"
 #ifdef  FIXED_IP_ADDR
 #define RTEMS_DO_BOOTP 0
+#define FIXED_NETMASK "255.255.255.0"
 #else
 #define RTEMS_DO_BOOTP rtems_bsdnet_do_bootp
 #define FIXED_IP_ADDR  0
@@ -157,7 +159,7 @@ extern int if_index;
 
 #endif /* ifdef LO_IF_ONLY */
 
-#ifdef NIC_NAME
+#ifdef FIXED_IP_ADDR
 
 /* provide declaration, just in case */
 int
