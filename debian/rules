@@ -47,9 +47,11 @@ $(eval $(foreach arch,$(ARCH),$(foreach bsp,$($(arch)_BSPS),$(call build-bsp,$(b
 # $(2) is arch name (ie powerpc)
 define install-bsp
 
+$(2)_$(1)_BINDIR = $(CURDIR)/debian/rtems-gesys-$(1)/usr/$(2)-rtems$(RV)/$(1)/bin
+
 install-$(2)-$(1):
-	$(MAKE) ARCH=x-$(2)-$(1) RTEMS_MAKEFILE_PATH=/usr/$(2)-rtems$(RV)/$(1) \
-PROJECT_RELEASE=$(CURDIR)/debian/rtems-gesys-$(1)/usr/$(2)-rtems$(RV)/$(1) install
+	install -m 755 -d $$($(2)_$(1)_BINDIR)
+	install -m 755 -t $$($(2)_$(1)_BINDIR) x-$(2)-$(1)/rtems.bin x-$(2)-$(1)/rtems.exe
 
 install-all += install-$(2)-$(1)
 
@@ -84,9 +86,9 @@ install-indep:
 	dh_clean -k -i 
 	dh_installdirs -i
 
-	# Add here commands to install the indep part of the package into
-	# debian/<package>-doc.
-	install -m 644 -t debian/rtems-gesys-doc INSTALL LICENSE README*
+	install -d debian/rtems-gesys-doc/usr/share/rtems-gesys
+	install -m 644 -t debian/rtems-gesys-doc/usr/share/rtems-gesys INSTALL LICENSE README*
+	install -m 644 -t debian/rtems-gesys-doc/usr/share/rtems-gesys st.sys*
 
 	dh_install -i
 

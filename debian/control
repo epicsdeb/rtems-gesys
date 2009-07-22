@@ -18,6 +18,7 @@ Description: Generic loadable RTEMS OS image
 Package: rtems-gesys-mvme2100
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-mvme2100
+Recommends: rtems-gesys-doc
 Description: Generic loadable RTEMS OS image
  The RTEMS Generic System uses the capabilites of the CExp runtime loader
  to provide a generic bootable image.  Application specific code is
@@ -28,6 +29,7 @@ Description: Generic loadable RTEMS OS image
 Package: rtems-gesys-mvme3100
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-mvme3100
+Recommends: rtems-gesys-doc
 Description: Generic loadable RTEMS OS image
  The RTEMS Generic System uses the capabilites of the CExp runtime loader
  to provide a generic bootable image.  Application specific code is
@@ -38,6 +40,7 @@ Description: Generic loadable RTEMS OS image
 Package: rtems-gesys-mvme5500
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-mvme5500
+Recommends: rtems-gesys-doc
 Description: Generic loadable RTEMS OS image
  The RTEMS Generic System uses the capabilites of the CExp runtime loader
  to provide a generic bootable image.  Application specific code is
@@ -48,6 +51,7 @@ Description: Generic loadable RTEMS OS image
 Package: rtems-gesys-pc386
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-pc386
+Recommends: rtems-gesys-doc
 Description: Generic loadable RTEMS OS image
  The RTEMS Generic System uses the capabilites of the CExp runtime loader
  to provide a generic bootable image.  Application specific code is

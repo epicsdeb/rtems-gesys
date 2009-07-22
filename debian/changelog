@@ -1,6 +1,7 @@
 rtems-gesys (2.4-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release
+  * Patched by Daron Chabot <dchabot@bnl.gov>
 
  -- Michael Davidsaver <mdavidsaver@bnl.gov>  Tue, 21 Jul 2009 17:16:54 -0400
 
