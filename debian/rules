@@ -1,0 +1,144 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+#
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+#
+# Modified to make a template file for a multi-binary package with separated
+# build-arch and build-indep targets  by Bill Allombert 2001
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+
+RV=4.9
+
+ARCH=powerpc i386
+
+powerpc_BSPS = mvme2100 mvme3100 mvme5500
+i386_BSPS = pc386
+
+#Architecture
+build: build-arch build-indep
+
+# Build for a BSP
+# $(1) is bsp name (ie mvme3100)
+# $(2) is arch name (ie powerpc)
+define build-bsp
+
+build-$(2)-$(1):
+	$(MAKE) ARCH=x-$(2)-$(1) RTEMS_MAKEFILE_PATH=/usr/$(2)-rtems$(RV)/$(1)
+
+build-all += build-$(2)-$(1)
+clean-all += x-$(2)-$(1)
+
+endef
+
+$(eval $(foreach arch,$(ARCH),$(foreach bsp,$($(arch)_BSPS),$(call build-bsp,$(bsp),$(arch)))))
+
+# Install for a BSP
+# $(1) is bsp name (ie mvme3100)
+# $(2) is arch name (ie powerpc)
+define install-bsp
+
+install-$(2)-$(1):
+	$(MAKE) ARCH=x-$(2)-$(1) RTEMS_MAKEFILE_PATH=/usr/$(2)-rtems$(RV)/$(1) \
+PROJECT_RELEASE=$(CURDIR)/debian/rtems-gesys-$(1)/usr/$(2)-rtems$(RV)/$(1) install
+
+install-all += install-$(2)-$(1)
+
+endef
+
+$(eval $(foreach arch,$(ARCH),$(foreach bsp,$($(arch)_BSPS),$(call install-bsp,$(bsp),$(arch)))))
+
+build-arch: build-arch-stamp
+build-arch-stamp: $(build-all)
+	touch $@
+
+build-indep: build-indep-stamp
+build-indep-stamp:  
+
+	# Add here commands to compile the indep part of the package.
+	#$(MAKE) doc
+	touch $@
+
+clean: 
+	dh_testdir
+	dh_testroot
+	rm -f build-arch-stamp build-indep-stamp
+
+	rm -rf $(clean-all)
+
+	dh_clean 
+
+install: install-indep install-arch
+install-indep:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -i 
+	dh_installdirs -i
+
+	# Add here commands to install the indep part of the package into
+	# debian/<package>-doc.
+	install -m 644 -t debian/rtems-gesys-doc INSTALL LICENSE README*
+
+	dh_install -i
+
+install-arch: install-arch-pre $(install-all) install-arch-post
+
+install-arch-pre:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -s 
+	dh_installdirs -s
+
+install-arch-post:
+	dh_install -s
+
+# Must not depend on anything. This is to be called by
+# binary-arch/binary-indep
+# in another 'make' thread.
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installexamples
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate	
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_python
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+	dh_installman
+	dh_link
+#	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_perl
+#	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+# Build architecture independant packages using the common target.
+binary-indep: build-indep install-indep
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build-arch install-arch
+	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
+
+binary: binary-arch binary-indep
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch configure

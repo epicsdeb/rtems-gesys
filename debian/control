@@ -1,0 +1,57 @@
+Source: rtems-gesys
+Section: unknown
+Priority: extra
+Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
+Build-Depends: debhelper (>= 7), rtems-cexp-mvme2100, rtems-cexp-mvme3100, rtems-cexp-mvme5500, rtems-cexp-pc386
+Standards-Version: 3.7.3
+Homepage: http://www.slac.stanford.edu/~strauman/rtems/software.html
+
+Package: rtems-gesys-doc
+Architecture: all
+Description: Generic loadable RTEMS OS image
+ The RTEMS Generic System uses the capabilites of the CExp runtime loader
+ to provide a generic bootable image.  Application specific code is
+ loaded at run-time.
+ .
+ This package contains documentation
+
+Package: rtems-gesys-mvme2100
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-mvme2100
+Description: Generic loadable RTEMS OS image
+ The RTEMS Generic System uses the capabilites of the CExp runtime loader
+ to provide a generic bootable image.  Application specific code is
+ loaded at run-time.
+ .
+ This package contains the generic image for the MVME2100 SBC.
+
+Package: rtems-gesys-mvme3100
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-mvme3100
+Description: Generic loadable RTEMS OS image
+ The RTEMS Generic System uses the capabilites of the CExp runtime loader
+ to provide a generic bootable image.  Application specific code is
+ loaded at run-time.
+ .
+ This package contains the generic image for the MVME3100 SBC.
+
+Package: rtems-gesys-mvme5500
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-mvme5500
+Description: Generic loadable RTEMS OS image
+ The RTEMS Generic System uses the capabilites of the CExp runtime loader
+ to provide a generic bootable image.  Application specific code is
+ loaded at run-time.
+ .
+ This package contains the generic image for the MVME5500 SBC.
+
+Package: rtems-gesys-pc386
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, rtems-cexp-pc386
+Description: Generic loadable RTEMS OS image
+ The RTEMS Generic System uses the capabilites of the CExp runtime loader
+ to provide a generic bootable image.  Application specific code is
+ loaded at run-time.
+ .
+ This package contains the generic image for 386 compatible CPU with standard
+ PC hardware.
