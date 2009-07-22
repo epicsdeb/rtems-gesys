@@ -231,6 +231,7 @@ DEFINES+=-DMEMORY_HUGE
 endif
 
 ifeq  "$(RTEMS_BSP_FAMILY)" "pc386"
+USE_BSPEXT = NO
 ifeq  "$(USE_BSDNETDRVS)"   "YES"
 LD_LIBS  += -lif_pcn
 LD_LIBS  += -lif_em
@@ -242,7 +243,8 @@ DEFINES  += -DMULTI_NETDRIVER
 endif
 DEFINES  += -DHAVE_PCIBIOS
 DEFINES  += -DMEMORY_HUGE
-DEFINES  += "-DEARLY_CMDLINE_GET(arg)=do { *(arg) = BSP_commandline_string; } while (0)"
+# BSP_commandline_string is a powerpc-BSP specific variable and does NOT belong here 
+#DEFINES  += "-DEARLY_CMDLINE_GET(arg)=do { *(arg) = BSP_commandline_string; } while (0)"
 ifndef ELFEXT
 ELFEXT    = obj
 endif
@@ -260,9 +262,9 @@ endif
 #endef
 endif
 
-#ifneq "$(filter $(RTEMS_BSP_FAMILY),mvme167 uC5282)xx" "xx"
-#USE_BSPEXT = NO
-#endif
+ifneq "$(filter $(RTEMS_BSP_FAMILY),mvme167 uC5282)xx" "xx"
+USE_BSPEXT = NO
+endif
 
 ifneq "$(filter $(RTEMS_BSP_FAMILY),mvme167)xx" "xx"
 DEFINES+='-DMEMORY_SCARCE=(1024*1024)'
@@ -327,7 +329,6 @@ DEFINES+=$(USE_NFS_$(USE_NFS)_DEFINES)
 DEFINES+=$(USE_TFTPFS_$(USE_TFTPFS)_DEFINES)
 DEFINES+=$(USE_RSH_$(USE_RSH)_DEFINES)
 
-#DEFINES+=-DUSE_SCRIPT_HACK
 #
 # CFLAGS_DEBUG_V are used when the `make debug' target is built.
 # To link your application with the non-optimized RTEMS routines,
@@ -341,7 +342,7 @@ USE_NFS_YES_LIB    = -lnfs
 
 LD_LIBS   += -lcexp -lspencer_regexp -lpmelf -lpmbfd
 LD_LIBS   += $(USE_TECLA_$(USE_TECLA)_LIB)
-LD_LIBS   += $(USE_BSPEXT_$(USE_BSPEXT)_LIB) #why doesn't this get picked up ???
+LD_LIBS   += $(USE_BSPEXT_$(USE_BSPEXT)_LIB)
 # force linkage with libnfs.a
 LD_LIBS   += -lnfs #$(USE_NFS_$(USE_NFS)_LIB)
 LD_LIBS   += $(OPT_LIBRARIES)
