@@ -3,28 +3,37 @@
     unld  = cexpModuleUnload
     lsmod = cexpModuleInfo
     reboot = bsp_reset
-####### calender-time info... #######################################
+    cd = chdir
+
+
     setenv("TZ","EST5EDT,M3.2.0,M11.1.0",1)
     tzset()
-##################################################################################
-#### NOTE: everything below here is IOC-specific and should be segregated as such!
-#### It'd be really cool if we could use DHCP option xxx to pass such IOC-specifics
-##################################################################################
-####### start syslogger (see <sys/syslog.h>): ################################
-####### openlog(default-prompt, LOG_CONS|LOG_PERROR, LOG_LOCAL6) ###
+
+
+####### start syslogger (see <sys/syslog.h>):
+####### openlog(default-prompt, LOG_CONS|LOG_PERROR, LOG_LOCAL6)
     openlog(0, 0x22, 0xB0)
-####### as of rtems-4.8, NFS client is built as part of librtemscpu.a :-) ###
+
 ##### nfsMount("uid.gid@srvName", "/export/dir", "/local/dir") #####
     rpcUdpInit()
     nfsInit(0,0)
     nfsMount("@NFS_SERVER_IPADDR@","@NFS_SERVER_MOUNT_POINT@","/mnt")
 #   nfsMountsShow(0)
-#####################################################################
+
     chdir("/mnt")
-####### load pty driver & telnet daemon (automagically started...) #######
+
+####### load pty driver & telnet daemon (automagically started...)
     telnetHdl = ld("telnetd.obj")
-####### load & start Till's rtems-gdb-stub ###############################
+
+####### load & start Till's rtems-gdb-stub
     gdbstubHdl = ld("rtems-gdb-stub.obj")
     rtems_gdb_start(0,0)
-####### set PATH for Till's gdb-stub to find object-files... #######
+
+####### set PATH to find object-files...
     setenv("PATH","/mnt:",1)	
+
+# ld("mymodule.obj")
+
+## EPICS Users
+# osdTimeRegister()
+# < st.cmd
