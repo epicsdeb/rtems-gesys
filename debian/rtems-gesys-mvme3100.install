@@ -1,0 +1,3 @@
+usr/powerpc-rtems*/mvme3100/bin/rtems.boot
+usr/powerpc-rtems*/mvme3100/bin/rtems.elf
+usr/share/doc/rtems-gesys-mvme3100/st.sys

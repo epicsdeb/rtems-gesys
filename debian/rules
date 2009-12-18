@@ -1,146 +1,49 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-#
-# This file was originally written by Joey Hess and Craig Small.
-# As a special exception, when this file is copied by dh-make into a
-# dh-make output file, you may use that output file without restriction.
-# This special exception was added by Craig Small in version 0.37 of dh-make.
-#
-# Modified to make a template file for a multi-binary package with separated
-# build-arch and build-indep targets  by Bill Allombert 2001
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/utils.mk
 
-# This has to be exported to make some magic below work.
-export DH_OPTIONS
-
+# Don't strip
+DEB_DH_STRIP_ARGS := -Xusr
 
 RV=4.9
 
-ARCH=powerpc i386
+# $1 is bsp name (ie mvme3100)
+define bsprule
 
-powerpc_BSPS = mvme2100 mvme3100 mvme5500
-i386_BSPS = pc386
+# This install prefix w/ arch
+# This will be /usr/powerpc-rtems4.9/mvme3100 or similar
+$1_bspbase=$(dir $(wildcard /usr/*-rtems$(RV)/$1/Makefile.inc))
 
-#Architecture
-build: build-arch build-indep
+build/rtems-gesys-$(1):: build-$(1)-stamp
 
-# Build for a BSP
-# $(1) is bsp name (ie mvme3100)
-# $(2) is arch name (ie powerpc)
-define build-bsp
+build-$(1)-stamp:
+	echo "build $$@"
+	$(MAKE) ARCH=x-$(1) RTEMS_MAKEFILE_PATH=$$($1_bspbase) \
 
-build-$(2)-$(1):
-	$(MAKE) ARCH=x-$(2)-$(1) RTEMS_MAKEFILE_PATH=/usr/$(2)-rtems$(RV)/$(1)
+	touch $$@
 
-build-all += build-$(2)-$(1)
-clean-all += x-$(2)-$(1)
+install/rtems-gesys-$(1)::
+	echo "install $$@"
+	install -m 755 -d debian/tmp$$($1_bspbase)/bin
+	install -m 644 x-$(1)/rtems.exe debian/tmp$$($1_bspbase)/bin/rtems.elf
+	install -m 644 x-$(1)/rtems.bin debian/tmp$$($1_bspbase)/bin/rtems.boot
 
-endef
-
-$(eval $(foreach arch,$(ARCH),$(foreach bsp,$($(arch)_BSPS),$(call build-bsp,$(bsp),$(arch)))))
-
-# Install for a BSP
-# $(1) is bsp name (ie mvme3100)
-# $(2) is arch name (ie powerpc)
-define install-bsp
-
-$(2)_$(1)_BINDIR = $(CURDIR)/debian/rtems-gesys-$(1)/usr/$(2)-rtems$(RV)/$(1)/bin
-
-install-$(2)-$(1):
-	install -m 755 -d $$($(2)_$(1)_BINDIR)
-	install -m 755 -t $$($(2)_$(1)_BINDIR) x-$(2)-$(1)/rtems.bin x-$(2)-$(1)/rtems.exe
-
-install-all += install-$(2)-$(1)
+	install -m 755 -d debian/tmp/usr/share/doc/rtems-gesys-$(1)
+	install -m 755 x-$(1)/st.sys debian/tmp/usr/share/doc/rtems-gesys-$(1)
 
 endef
 
-$(eval $(foreach arch,$(ARCH),$(foreach bsp,$($(arch)_BSPS),$(call install-bsp,$(bsp),$(arch)))))
+$(foreach p,$(DEB_ARCH_PACKAGES),$(eval $(call bsprule,$(p:rtems-gesys-%=%))))
 
-build-arch: build-arch-stamp
-build-arch-stamp: $(build-all)
-	touch $@
+common-binary-fixup-arch::
+	dh_rtems
 
-build-indep: build-indep-stamp
-build-indep-stamp:  
+clean::
+	rm -f build-*
+	rm -rf x-*
+	rm -f builddate.c ctrlx.c ldep/ldep pairxtract.c pathcheck.c
 
-	# Add here commands to compile the indep part of the package.
-	#$(MAKE) doc
-	touch $@
-
-clean: 
-	dh_testdir
-	dh_testroot
-	rm -f build-arch-stamp build-indep-stamp
-
-	rm -rf $(clean-all)
-
-	dh_clean 
-
-install: install-indep install-arch
-install-indep:
-	dh_testdir
-	dh_testroot
-	dh_clean -k -i 
-	dh_installdirs -i
-
-	install -d debian/rtems-gesys-doc/usr/share/rtems-gesys
-	install -m 644 -t debian/rtems-gesys-doc/usr/share/rtems-gesys INSTALL LICENSE README*
-	install -m 644 -t debian/rtems-gesys-doc/usr/share/rtems-gesys st.sys*
-
-	dh_install -i
-
-install-arch: install-arch-pre $(install-all) install-arch-post
-
-install-arch-pre:
-	dh_testdir
-	dh_testroot
-	dh_clean -k -s 
-	dh_installdirs -s
-
-install-arch-post:
-	dh_install -s
-
-# Must not depend on anything. This is to be called by
-# binary-arch/binary-indep
-# in another 'make' thread.
-binary-common:
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs 
-	dh_installdocs
-	dh_installexamples
-#	dh_installmenu
-#	dh_installdebconf	
-#	dh_installlogrotate	
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_python
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
-	dh_installman
-	dh_link
-#	dh_strip
-	dh_compress
-	dh_fixperms
-#	dh_perl
-#	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-# Build architecture independant packages using the common target.
-binary-indep: build-indep install-indep
-	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
-
-# Build architecture dependant packages using the common target.
-binary-arch: build-arch install-arch
-	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
-
-binary: binary-arch binary-indep
-.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch configure
+info:
+	echo "$(DEB_ARCH_PACKAGES)"

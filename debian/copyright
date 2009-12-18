@@ -3,13 +3,13 @@ Tue, 21 Jul 2009 17:16:54 -0400.
 
 It was downloaded from http://www.slac.stanford.edu/~strauman/rtems/software.html
 
-Upstream Author(s):
+Upstream Author:
 
     Till Straumann <strauman@slac.stanford.edu>
 
 Copyright:
 
-   Copyright © 2003, Stanford University and
+   Copyright (C) 2003, Stanford University and
    Till Straumann <strauman@slac.stanford.edu>
 
 License:
@@ -22,7 +22,7 @@ License:
 
        --------------------------------------------------------------
 
-       Copyright © 2003, Stanford University and
+       Copyright (C) 2003, Stanford University and
        Till Straumann <strauman@slac.stanford.edu>
 
        The "RTEMS/CEXP generic SYSTEM application 'GeSys'" is distributed
