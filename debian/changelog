@@ -1,3 +1,9 @@
+rtems-gesys (2.4-2) unstable; urgency=low
+
+  * Update dependencies
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Fri, 18 Dec 2009 15:18:23 -0500
+
 rtems-gesys (2.4-1) unstable; urgency=low
 
   * Initial release
