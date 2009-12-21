@@ -2,7 +2,7 @@ Source: rtems-gesys
 Section: unknown
 Priority: extra
 Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
-Build-Depends: debhelper (>= 7), cdbs,
+Build-Depends: debhelper (>= 7), cdbs, rtems-debhelper,
                rtems-cexp-mvme2100, rtems-libbspext-mvme2100,
                rtems-cexp-mvme3100, rtems-libbspext-mvme3100,
                rtems-cexp-mvme5500, rtems-libbspext-mvme5500,
