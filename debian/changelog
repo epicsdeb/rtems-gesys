@@ -1,3 +1,9 @@
+rtems-gesys (2.4-3) unstable; urgency=low
+
+  * Build for mvme2307
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Thu, 28 Jan 2010 02:32:53 -0500
+
 rtems-gesys (2.4-2) unstable; urgency=low
 
   * Update dependencies
