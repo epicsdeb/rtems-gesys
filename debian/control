@@ -1,9 +1,10 @@
 Source: rtems-gesys
-Section: unknown
+Section: devel
 Priority: extra
 Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
 Build-Depends: debhelper (>= 7), cdbs, rtems-debhelper,
                rtems-cexp-mvme2100, rtems-libbspext-mvme2100,
+               rtems-cexp-mvme2307, rtems-libbspext-mvme2307,
                rtems-cexp-mvme3100, rtems-libbspext-mvme3100,
                rtems-cexp-mvme5500, rtems-libbspext-mvme5500,
                rtems-cexp-pc386
@@ -20,6 +21,16 @@ Description: Generic loadable RTEMS OS image
  loaded at run-time.
  .
  This package contains the generic image for the MVME2100 SBC.
+
+Package: rtems-gesys-mvme2307
+Architecture: any
+Depends: ${rtems:Depends}
+Description: Generic loadable RTEMS OS image
+ The RTEMS Generic System uses the capabilites of the CExp runtime loader
+ to provide a generic bootable image.  Application specific code is
+ loaded at run-time.
+ .
+ This package contains the generic image for the MVME2307 SBC.
 
 Package: rtems-gesys-mvme3100
 Architecture: any
