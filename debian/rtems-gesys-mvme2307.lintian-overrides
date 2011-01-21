@@ -1,0 +1,10 @@
+rtems-gesys-mvme2307: non-standard-dir-in-usr
+rtems-gesys-mvme2307: file-in-unusual-dir
+# /usr/*-rtems*.*
+rtems-gesys-mvme2307: arch-independent-package-contains-binary-or-object
+# target binaries can be built/linked on any host
+rtems-gesys-mvme2307: unstripped-binary-or-object
+# retain debug symbols.  RTEMS build system automatically strips
+# them after final link
+rtems-gesys-mvme2307: statically-linked-binary
+# RTEMS does not support shared libraries

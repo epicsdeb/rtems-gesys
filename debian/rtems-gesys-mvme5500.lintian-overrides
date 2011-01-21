@@ -1,0 +1,10 @@
+rtems-gesys-mvme5500: non-standard-dir-in-usr
+rtems-gesys-mvme5500: file-in-unusual-dir
+# /usr/*-rtems*.*
+rtems-gesys-mvme5500: arch-independent-package-contains-binary-or-object
+# target binaries can be built/linked on any host
+rtems-gesys-mvme5500: unstripped-binary-or-object
+# retain debug symbols.  RTEMS build system automatically strips
+# them after final link
+rtems-gesys-mvme5500: statically-linked-binary
+# RTEMS does not support shared libraries

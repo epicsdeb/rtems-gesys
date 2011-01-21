@@ -35,9 +35,9 @@ install/rtems-gesys-$(1)::
 
 endef
 
-$(foreach p,$(DEB_ARCH_PACKAGES),$(eval $(call bsprule,$(p:rtems-gesys-%=%))))
+$(foreach p,$(DEB_INDEP_PACKAGES),$(eval $(call bsprule,$(p:rtems-gesys-%=%))))
 
-common-binary-fixup-arch::
+common-binary-fixup-indep::
 	dh_rtems
 
 clean::
@@ -46,4 +46,4 @@ clean::
 	rm -f builddate.c ctrlx.c ldep/ldep pairxtract.c pathcheck.c
 
 info:
-	echo "$(DEB_ARCH_PACKAGES)"
+	echo "$(DEB_INDEP_PACKAGES)"

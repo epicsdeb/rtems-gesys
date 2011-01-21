@@ -1,0 +1,10 @@
+rtems-gesys-pc386: non-standard-dir-in-usr
+rtems-gesys-pc386: file-in-unusual-dir
+# /usr/*-rtems*.*
+rtems-gesys-pc386: arch-independent-package-contains-binary-or-object
+# target binaries can be built/linked on any host
+rtems-gesys-pc386: unstripped-binary-or-object
+# retain debug symbols.  RTEMS build system automatically strips
+# them after final link
+rtems-gesys-pc386: statically-linked-binary
+# RTEMS does not support shared libraries
