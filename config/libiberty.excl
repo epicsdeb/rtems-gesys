@@ -1,4 +1,3 @@
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[concat.o]:
 concat T 0000030c 00000188
 concat_copy T 00000000 000000d8
 concat_copy2 T 00000494 000000dc
@@ -9,10 +8,8 @@ memcpy U
 reconcat T 00000190 0000017c
 strlen U         
 xmalloc U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[fdmatch.o]:
 fdmatch T 00000000 00000088
 fstat U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[fibheap.o]:
 fibheap_delete T 00000688 00000054
 fibheap_delete_node T 00000720 00000040
 fibheap_empty T 00000040 00000018
@@ -28,7 +25,6 @@ fibheap_union T 00000394 000000ac
 free U         
 memset U         
 xcalloc U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[floatformat.o]:
 floatformat_arm_ext_big R 000001b8 0000002c
 floatformat_arm_ext_littlebyte_bigword R 000001e4 0000002c
 floatformat_from_double T 0000019c 00000258
@@ -50,10 +46,8 @@ floatformat_to_double T 000003f4 00000154
 frexp U         
 ldexp U         
 memset U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[fnmatch.o]:
 fnmatch T 00000000 00000488
 _sch_tolower U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[hashtab.o]:
 abort U         
 calloc U         
 fprintf U         
@@ -79,10 +73,8 @@ htab_try_create T 0000090c 0000001c
 _impure_ptr U         
 memset U         
 xcalloc U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[hex.o]:
 hex_init T 00000000 0000000c
 _hex_value R 00000000 00000100
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[make-temp-file.o]:
 abort U         
 access U         
 choose_tmpdir T 00000000 000001bc
@@ -93,7 +85,6 @@ mkstemps U
 strcpy U         
 strlen U         
 xmalloc U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[objalloc.o]:
 abort U         
 free U         
 malloc U         
@@ -101,7 +92,6 @@ _objalloc_alloc T 000001d0 00000124
 objalloc_create T 000002f4 00000084
 objalloc_free T 00000180 00000050
 objalloc_free_block T 00000000 00000180
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[obstack.o]:
 abort U         
 exit U         
 fwrite U         
@@ -116,7 +106,6 @@ _obstack_free T 00000588 000000e4
 obstack_free T 000004a4 000000e4
 _obstack_memory_used T 00000438 00000034
 _obstack_newchunk T 000001b8 00000240
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[partition.o]:
 fprintf U         
 fputc U         
 free U         
@@ -127,7 +116,6 @@ partition_print T 00000170 000001cc
 partition_union T 00000000 000000cc
 qsort U         
 xmalloc U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[pexecute.o]:
 close U         
 dup U         
 __errno U         
@@ -143,18 +131,14 @@ pwait T 00000000 00000024
 sleep U         
 wait U         
 xstrerror U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[safe-ctype.o]:
 _sch_istable R 00000000 00000200
 _sch_tolower R 00000200 00000100
 _sch_toupper R 00000300 00000100
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[sort.o]:
 memset U         
 sort_pointers T 00000000 00000170
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[spaces.o]:
 free U         
 malloc U         
 spaces T 00000000 000000ac
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[splay-tree.o]:
 free U         
 splay_tree_compare_ints T 00000840 00000020
 splay_tree_compare_pointers T 00000860 00000020
@@ -170,17 +154,14 @@ splay_tree_predecessor T 000006dc 000000a4
 splay_tree_remove T 0000053c 000000d4
 splay_tree_successor T 00000780 000000a4
 xmalloc U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[ternary.o]:
 free U         
 ternary_cleanup T 0000006c 0000005c
 ternary_insert T 000000c8 000000e0
 ternary_search T 00000000 0000006c
 xmalloc U         
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[xexit.o]:
 exit U         
 xexit T 00000000 00000034
 _xexit_cleanup C 00000004 00000004
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[xmalloc.o]:
 calloc U         
 fprintf U         
 _impure_ptr U         
@@ -192,18 +173,14 @@ xmalloc T 00000130 00000048
 xmalloc_failed T 00000014 0000005c
 xmalloc_set_program_name T 00000000 00000014
 xrealloc T 00000070 00000060
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[xmemdup.o]:
 memcpy U         
 xcalloc U         
 xmemdup T 00000000 0000004c
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[xstrdup.o]:
 memcpy U         
 strlen U         
 xmalloc U         
 xstrdup T 00000000 0000004c
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[xstrerror.o]:
 sprintf U         
 strerror U         
 xstrerror T 00000000 00000074
-/opt/rtems-branch/target/ssrlApps/powerpc-rtems/beatnik//lib/libiberty.a[basename.o]:
 basename T 00000000 00000050
