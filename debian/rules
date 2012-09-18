@@ -7,7 +7,7 @@ include /usr/share/cdbs/1/rules/utils.mk
 # Don't strip
 DEB_DH_STRIP_ARGS := -Xusr
 
-RV=4.9
+RV=$(shell cat /usr/share/rtems-common/series)
 
 # $1 is bsp name (ie mvme3100)
 define bsprule
