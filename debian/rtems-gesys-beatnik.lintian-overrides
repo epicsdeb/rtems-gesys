@@ -1,0 +1,10 @@
+rtems-gesys-beatnik: non-standard-dir-in-usr
+rtems-gesys-beatnik: file-in-unusual-dir
+# /usr/*-rtems*.*
+rtems-gesys-beatnik: arch-independent-package-contains-binary-or-object
+# target binaries can be built/linked on any host
+rtems-gesys-beatnik: unstripped-binary-or-object
+# retain debug symbols.  RTEMS build system automatically strips
+# them after final link
+rtems-gesys-beatnik: statically-linked-binary
+# RTEMS does not support shared libraries
