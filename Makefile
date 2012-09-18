@@ -299,7 +299,7 @@ SYMFILEEXT=.sym
 bspfail:
 	$(error GeSys has not been ported/tested on this BSP ($(RTEMS_BSP)) yet)
 
-bspcheck: $(if $(filter $(RTEMS_BSP_FAMILY),pc386 motorola_powerpc svgm mvme5500 beatnik mvme3100 mvme167 uC5282 psim),,bspfail)
+bspcheck: $(if $(filter $(RTEMS_BSP),pc386 mvme2100 mvme2307 svgm mvme5500 beatnik mvme3100 mvme167 uC5282 psim),,bspfail)
 
 
 CPPFLAGS += -I. -Invram -DHAVE_CEXP
