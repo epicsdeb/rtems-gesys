@@ -53,17 +53,6 @@ Description: Generic loadable RTEMS OS image
  .
  This package contains the generic image for the MVME5500 SBC.
 
-Package: rtems-gesys-beatnik
-Architecture: all
-Depends: ${rtems:Depends}
-Description: Generic loadable RTEMS OS image
- The RTEMS Generic System uses the capabilities of the CExp runtime loader
- to provide a generic bootable image.  Application specific code is
- loaded at run-time.
- .
- This package contains the generic image for the beatnik BSP which
- supports the MVME5500 and MVME6100 SBCs.
-
 Package: rtems-gesys-pc386
 Architecture: all
 Depends: ${rtems:Depends}
