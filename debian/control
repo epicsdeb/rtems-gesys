@@ -3,12 +3,11 @@ Section: devel
 Priority: extra
 Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
 Build-Depends: debhelper (>= 7), cdbs, rtems-debhelper,
-               rtems-common (>= 4.10.2-2~),
+               rtems-common (>= 4.9.6-1~),
                rtems-cexp-mvme2100, rtems-libbspext-mvme2100,
                rtems-cexp-mvme2307, rtems-libbspext-mvme2307,
                rtems-cexp-mvme3100, rtems-libbspext-mvme3100,
                rtems-cexp-mvme5500, rtems-libbspext-mvme5500,
-               rtems-cexp-beatnik,  rtems-libbspext-beatnik,
                rtems-cexp-pc386
 Rtems-Depends: rtems, rtems-libbspext, rtems-cexp
 Standards-Version: 3.8.0
